@@ -1,0 +1,115 @@
+
+
+import random
+import hangman_loge
+import hangman_words
+
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+
+end_of_game = False
+
+chosen_word = random.choice(hangman_words.word_list)
+word_length = len(chosen_word)
+life = 6
+
+from hangman_loge import logo
+
+print(logo)
+
+
+
+display = []
+for _ in range(word_length):
+    display += "_"
+
+print(display)
+
+
+while not end_of_game:
+    guess = input("Guess a letter: ").lower()
+
+    if guess in chosen_word:
+      print(f"Good guess: {guess} the letter in the word move on...")
+      
+
+    
+    for position in range(word_length):
+        letter = chosen_word[position]
+        
+        if letter == guess:
+            display[position] = letter
+        
+    
+    if guess not in chosen_word:
+      life -= 1
+      print(f"Your guess is wrong,\n The letter is not in the word you lose a life.\n Remaining life if {life}")
+      if life == 0:
+        end_of_game = True
+        print("You Lose!")
+    
+    print(f"{' '.join(display)}")
+
+    
+    if "_" not in display:
+        end_of_game = True
+        print("You win.")
+
+    
+    from hangman_loge import stages
+    print(stages[life])
+    print("Game Ended\n Better Luck Next Time")
